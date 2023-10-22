@@ -7,8 +7,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL
-});
+    connectionString: process.env.POSTGRES_URL + "?sslmode=require",
+  })
 
 app.use(express.json());
 app.use(cors());
