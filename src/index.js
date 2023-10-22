@@ -37,6 +37,6 @@ app.post('/curriculum', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
