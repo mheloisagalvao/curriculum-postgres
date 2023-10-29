@@ -3,6 +3,13 @@ const cors = require('cors');
 const { Pool } = require('pg');
 require('dotenv').config();
 
+const admin = require("firebase-admin");
+const credentials = require("./authService.json")
+
+admin.initializeApp({
+  credential: admin.credential.cert(credentials),
+});
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -36,6 +43,21 @@ app.post('/curriculum', async (req, res) => {
     res.status(500).send('Erro interno do servidor');
   }
 });
+
+app.post('/signup', async (req, res) => {
+  console.log(req.body);
+  const user = {
+    email:req.body.email,
+    password: req.body.password
+  }
+  const userResponse = await admin.auth().createUser({
+    email: user.email,
+    password: user.password,
+    emailVerified: false,
+    disabled: false
+  });
+  res.json(userResponse);
+})
 
 app.listen(process.env.PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
